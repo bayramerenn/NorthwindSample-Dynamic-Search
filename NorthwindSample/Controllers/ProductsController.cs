@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using NorthwindSample.Extensions;
 using NorthwindSample.Models;
@@ -21,46 +20,18 @@ namespace NorthwindSample.Controllers
         [HttpPost]
         public async Task<IActionResult> Get(Search search)
         {
-            var predicateChain = PredicateBuilder.New<Product>();
+            var predicateChain = ExpressionHelper.GetPredicateChain<Product>(search.Where); ;
 
-            var va = SearchHelper.SearchValueType.String;
-            foreach (var item in search.Where)
-            {
-                switch (item.Operator)
-                {
-                    case Operator.Equal:
-                        var equal = ExpressionHelper.GetExpressionEqual<Product>(item.Column, item.Value, item.SearchValueType);
-                        predicateChain.And(equal);
-                        break;
+            var products = await _context.Products.Where(predicateChain).ToPagedListAsync(search.Paging.Current, search.Paging.ItemsPerPage);
+            return Ok(products);
+        }
 
-                    case Operator.NotEqual:
-                        break;
+        [HttpPost("Order")]
+        public async Task<IActionResult> GetOrder(Search search)
+        {
+            var predicateChain = ExpressionHelper.GetPredicateChain<Order>(search.Where);
 
-                    case Operator.GreaterThan:
-                        break;
-
-                    case Operator.LessThan:
-                        break;
-
-                    case Operator.Like:
-                        if (item.SearchValueType != SearchValueType.String)
-                            throw new ArgumentException();
-
-                        var like = ExpressionHelper.GetExpressionContains<Product>(item.Column, item.Value);
-                        predicateChain.And(like);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            //_context.Orders.Where(predicateChain).ToList();
-
-            ////var products = _context.Orders.Where(predicateChain).ToList();
-            //var products = _context.Orders.Where(x => EF.Functions.Like(x.ShipName, $"%{keyword}%")).ToList();
-
-            var products = await _context.Products.Where(predicateChain).ToPagedListAsync(1, 10);
+            var products = await _context.Orders.Where(predicateChain).ToPagedListAsync(search.Paging.Current, search.Paging.ItemsPerPage);
             return Ok(products);
         }
 
