@@ -9,7 +9,11 @@ namespace NorthwindSample.Extensions
     {
         public static Expression<Func<T, bool>> GetPredicateChain<T>(List<WhereOptions> whereOptions)
         {
-            var predicateChain = PredicateBuilder.New<T>();
+            var predicateChain = PredicateBuilder.New<T>(true);
+
+            if (whereOptions.Count() == 0)
+                return predicateChain;
+
             Expression<Func<T, bool>> predicate;
 
             foreach (var item in whereOptions)
