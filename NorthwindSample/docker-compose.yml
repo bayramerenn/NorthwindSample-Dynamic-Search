@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   northwinddb:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: mcr.microsoft.com/azure-sql-edge
     container_name: northwinddb
     restart: always
     ports:
@@ -9,7 +9,7 @@ services:
     volumes:
       - northwinddb_volume:/var/opt/mssql
     environment:
-      - ACCEPT_EULA=Y
+      - ACCEPT_EULA=1
       - SA_PASSWORD=Password12*
     networks:
       - northwindnet
