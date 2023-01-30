@@ -1,4 +1,4 @@
-﻿namespace NorthwindSample.SearchHelper
+﻿namespace NorthwindSample.Condition
 {
     public class Paging
     {

@@ -9,7 +9,7 @@ public partial class SalesTotalsByAmount
 
     public int OrderId { get; set; }
 
-    public string CompanyName { get; set; } = null!;
+    public string CompanyName { get; set; }
 
     public DateTime? ShippedDate { get; set; }
 }

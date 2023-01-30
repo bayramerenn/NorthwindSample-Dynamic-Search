@@ -5,13 +5,13 @@ namespace NorthwindSample.Models;
 
 public partial class Territory
 {
-    public string TerritoryId { get; set; } = null!;
+    public string TerritoryId { get; set; }
 
-    public string TerritoryDescription { get; set; } = null!;
+    public string TerritoryDescription { get; set; }
 
     public int RegionId { get; set; }
 
-    public virtual Region Region { get; set; } = null!;
+    public virtual Region Region { get; set; }
 
     public virtual ICollection<Employee> Employees { get; } = new List<Employee>();
 }
