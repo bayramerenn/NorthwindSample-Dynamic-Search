@@ -13,7 +13,7 @@ namespace NorthwindSample.Extensions
 
             if (condition == null) return condition;
 
-            if (condition.Value is string && (condition.Operator == OperatorCustom.In || condition.Operator == OperatorCustom.IsBetween))
+            if (condition.Value is string && (condition.Operator == Operator.In || condition.Operator == Operator.IsBetween))
                 condition.Value = condition.Value.ToString().Split(new string[] { ", " }, StringSplitOptions.None).ToArray();
 
             condition.ValidateColumn();

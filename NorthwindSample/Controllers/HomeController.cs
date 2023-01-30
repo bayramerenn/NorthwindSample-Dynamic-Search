@@ -1,5 +1,4 @@
-﻿using LinqKit;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NorthwindSample.Condition;
 using NorthwindSample.Extensions;
 using NorthwindSample.Models;
@@ -22,7 +21,7 @@ namespace NorthwindSample.Controllers
         {
             var expression = search.Where.GetLambdaExpression<Product>();
 
-            var products = await _context.Products.Where(expression).ToPagedListAsync(1, 10);
+            var products = await _context.Products.Where(expression).ToPagedListAsync(search.Paging.PageIndex, search.Paging.PageSize);
             return Ok(products);
         }
 
@@ -31,7 +30,7 @@ namespace NorthwindSample.Controllers
         {
             var expression = search.Where.GetLambdaExpression<Order>();
 
-            var products = await _context.Orders.Where(expression).ToPagedListAsync(1, 10);
+            var products = await _context.Orders.Where(expression).ToPagedListAsync(search.Paging.PageIndex, search.Paging.PageSize);
             return Ok(products);
         }
     }

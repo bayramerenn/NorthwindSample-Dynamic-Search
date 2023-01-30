@@ -16,6 +16,30 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(enumConverter);
     }).ConfigureApiBehaviorOptions(opt => opt.SuppressModelStateInvalidFilter = true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin",
+        builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+    //options.AddPolicy("AllowSpecificOrigins",
+    //    builder =>
+    //    {
+    //        List<CorsOrigin> origins = new List<CorsOrigin>();
+    //        configuration.GetSection("cors:origins").Bind(origins);
+    //        foreach (var o in origins)
+    //        {
+    //            builder.WithOrigins(o.Uri);
+    //        }
+    //        builder
+    //            .AllowAnyMethod()
+    //            .AllowAnyHeader()
+    //            .AllowCredentials();
+    //    });
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NorthwindContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("Sql")));
@@ -27,7 +51,7 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
+app.UseCors("AllowAnyOrigin");
 app.UseAuthorization();
 
 app.MapControllers();

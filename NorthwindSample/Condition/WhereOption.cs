@@ -5,7 +5,7 @@ namespace NorthwindSample.Condition
     public class WhereOption
     {
         public string Column { get; set; } = string.Empty;
-        public OperatorCustom Operator { get; set; }
+        public Operator Operator { get; set; }
         public object Value { get; set; }
         public bool Not { get; set; }
 
@@ -13,12 +13,12 @@ namespace NorthwindSample.Condition
         {
             if (string.IsNullOrEmpty(Column))
                 throw new FilterException("ColumnNullError");
-            if (Value == null && !(Operator == OperatorCustom.IsNull || Operator == OperatorCustom.IsNullOrEmpty))
+            if (Value == null && !(Operator == Operator.IsNull || Operator == Operator.IsNullOrEmpty))
                 throw new FilterException("ValueNullError");
-            if (Operator == OperatorCustom.IsBetween
+            if (Operator == Operator.IsBetween
                 && !(Value is ICollection && ((ICollection)Value).Count == 2))
                 throw new FilterException("BetweenValueError");
-            if (Operator == OperatorCustom.In
+            if (Operator == Operator.In
                  && !(Value is ICollection && ((ICollection)Value).Count > 0))
                 throw new FilterException("InValueError");
         }

@@ -67,26 +67,26 @@ namespace NorthwindSample.Extensions
 
         private static void SetExpression(ref Expression expression, ParameterExpression parameterExpression, WhereOption condition)
         {
-            if (condition.Operator == OperatorCustom.Equals)
+            if (condition.Operator == Operator.Equals)
                 expression = Expression.Equal(Expression.PropertyOrField(parameterExpression, condition.Column), Expression.Constant(condition.Value, Expression.PropertyOrField(parameterExpression, condition.Column).Type));
-            else if (condition.Operator == OperatorCustom.NotEquals)
+            else if (condition.Operator == Operator.NotEquals)
                 expression = Expression.NotEqual(Expression.PropertyOrField(parameterExpression, condition.Column), Expression.Constant(condition.Value, Expression.PropertyOrField(parameterExpression, condition.Column).Type));
-            else if (condition.Operator == OperatorCustom.IsGreaterThan) SetComparableExpression(ref expression, parameterExpression, condition, ExpressionType.GreaterThan);
-            else if (condition.Operator == OperatorCustom.IsGreaterThanOrEqualto) SetComparableExpression(ref expression, parameterExpression, condition, ExpressionType.GreaterThanOrEqual);
-            else if (condition.Operator == OperatorCustom.IsLessThan) SetComparableExpression(ref expression, parameterExpression, condition, ExpressionType.LessThan);
-            else if (condition.Operator == OperatorCustom.IsLessThanOrEqualto) SetComparableExpression(ref expression, parameterExpression, condition, ExpressionType.LessThanOrEqual);
-            else if (condition.Operator == OperatorCustom.IsBetween) SetBetweenExpression(ref expression, parameterExpression, condition);
-            else if (condition.Operator == OperatorCustom.Contains) SetStringExpression(ref expression, parameterExpression, condition, nameof(string.Contains));
-            else if (condition.Operator == OperatorCustom.StartsWith) SetStringExpression(ref expression, parameterExpression, condition, nameof(string.StartsWith));
-            else if (condition.Operator == OperatorCustom.EndsWith) SetStringExpression(ref expression, parameterExpression, condition, nameof(string.EndsWith));
-            else if (condition.Operator == OperatorCustom.IsNull) expression = Expression.Equal(Expression.PropertyOrField(parameterExpression, condition.Column), Expression.Constant(null));
-            else if (condition.Operator == OperatorCustom.IsNullOrEmpty)
+            else if (condition.Operator == Operator.IsGreaterThan) SetComparableExpression(ref expression, parameterExpression, condition, ExpressionType.GreaterThan);
+            else if (condition.Operator == Operator.IsGreaterThanOrEqualto) SetComparableExpression(ref expression, parameterExpression, condition, ExpressionType.GreaterThanOrEqual);
+            else if (condition.Operator == Operator.IsLessThan) SetComparableExpression(ref expression, parameterExpression, condition, ExpressionType.LessThan);
+            else if (condition.Operator == Operator.IsLessThanOrEqualto) SetComparableExpression(ref expression, parameterExpression, condition, ExpressionType.LessThanOrEqual);
+            else if (condition.Operator == Operator.IsBetween) SetBetweenExpression(ref expression, parameterExpression, condition);
+            else if (condition.Operator == Operator.Contains) SetStringExpression(ref expression, parameterExpression, condition, nameof(string.Contains));
+            else if (condition.Operator == Operator.StartsWith) SetStringExpression(ref expression, parameterExpression, condition, nameof(string.StartsWith));
+            else if (condition.Operator == Operator.EndsWith) SetStringExpression(ref expression, parameterExpression, condition, nameof(string.EndsWith));
+            else if (condition.Operator == Operator.IsNull) expression = Expression.Equal(Expression.PropertyOrField(parameterExpression, condition.Column), Expression.Constant(null));
+            else if (condition.Operator == Operator.IsNullOrEmpty)
             {
                 expression = Expression.Call(
                         typeof(string).GetMethod(nameof(string.IsNullOrEmpty), new Type[] { typeof(string) }),
                         Expression.PropertyOrField(parameterExpression, condition.Column));
             }
-            else if (condition.Operator == OperatorCustom.In)
+            else if (condition.Operator == Operator.In)
             {
                 MemberExpression memberExpression = Expression.PropertyOrField(parameterExpression, condition.Column);
 

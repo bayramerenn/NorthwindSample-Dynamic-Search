@@ -1,6 +1,6 @@
 ﻿namespace NorthwindSample.Condition
 {
-    public enum OperatorCustom
+    public enum Operator
     {
         Equals,                                  //=
         NotEquals,                               //!=
